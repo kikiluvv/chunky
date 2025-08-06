@@ -120,7 +120,7 @@ func main() {
 
 	// 💾 write each chunk to its own file
 	for i, c := range allChunks {
-		formatted, err := formatter.FormatChunks([]chunker.Chunk{c}, formatter.FormatType(cfg.Format))
+		formatted, err := formatter.FormatSingleChunkWithNumber(c, i, formatter.FormatType(cfg.Format))
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "error formatting chunk: %v\n", err)
 			continue

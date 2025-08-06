@@ -41,12 +41,29 @@ func formatTxt(chunks []chunker.Chunk) string {
 	return sb.String()
 }
 
+func FormatSingleChunkWithNumber(chunk chunker.Chunk, index int, format FormatType) (string, error) {
+	switch format {
+	case FormatTxt:
+		return fmt.Sprintf("== Chunk %d — FILE: %s ==\n%s\n\n", index, chunk.FilePath, chunk.Content), nil
+	case FormatMd:
+		ext := fileExtension(chunk.FilePath)
+		lang := langFromExt(ext)
+		return fmt.Sprintf("## Chunk %d — %s\n\n```%s\n%s\n```\n\n", index, chunk.FilePath, lang, chunk.Content), nil
+	case FormatJson:
+		// json formatting of single chunk with number embedded? simplest is to marshal normally
+		// but you could wrap in a struct if needed
+		return formatJson([]chunker.Chunk{chunk})
+	default:
+		return "", fmt.Errorf("unsupported format: %s", format)
+	}
+}
+
 func formatMd(chunks []chunker.Chunk) string {
 	var sb strings.Builder
-	for _, c := range chunks {
+	for i, c := range chunks {
 		ext := fileExtension(c.FilePath)
 		lang := langFromExt(ext)
-		sb.WriteString(fmt.Sprintf("## %s\n\n```%s\n%s\n```\n\n", c.FilePath, lang, c.Content))
+		sb.WriteString(fmt.Sprintf("## Chunk %d — %s\n\n```%s\n%s\n```\n\n", i, c.FilePath, lang, c.Content))
 	}
 	return sb.String()
 }
