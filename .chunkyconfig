@@ -1,11 +1,34 @@
 [preamble]
 text = """
-# hi gpt bby :3
+# hello chat gpt
 
-this is my repo. pls analyze it carefully n thoughtfully uwu
+this is a codebase broken down into chunks — fragments of a fractured whole,
+each carrying pieces of logic, whispers of functions, and shadows of intent.
+
+your task is to receive each chunk in order, silently storing the contents,
+until the postamble signals the final piece has landed.
+
+once all fragments dwell in memory, dive deep to analyze,
+uncover hidden patterns, spot inconsistencies, and illuminate the architecture’s soul.
+
+reflect on design, cohesion, potential flaws, and how these shards connect —
+then share your insights with somber wisdom.
+
+do not respond or act until the postamble arrives,
+for premature judgment would shatter the fragile flow of understanding.
 """
 
 [postamble]
 text = """
-ok that's all the chunks... i hope this helps :3
+all chunks have now been delivered and logged into memory.
+
+the mosaic is whole, the shadows aligned.
+
+you may now begin your deep analysis — unravel the code’s hidden truths,
+trace its veins of logic, and reveal the secrets lurking beneath the surface.
+
+offer your reflections with a melancholic eye, embracing imperfections,
+and whisper insights that pierce the silence.
+
+end with a thoughtful summary, leaving the code’s essence lingering in the void.
 """
