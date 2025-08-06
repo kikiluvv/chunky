@@ -1,0 +1,11 @@
+[preamble]
+text = """
+# hi gpt bby :3
+
+this is my repo. pls analyze it carefully n thoughtfully uwu
+"""
+
+[postamble]
+text = """
+ok that's all the chunks... i hope this helps :3
+"""
