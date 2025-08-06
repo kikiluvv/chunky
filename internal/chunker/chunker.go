@@ -5,21 +5,17 @@ import (
 	"regexp"
 )
 
-// Chunk represents a chunk of code from a file.
 type Chunk struct {
 	FilePath string
 	Content  string
 }
 
-// Simple regex patterns for stripping comments (supports JS, Go, Python style)
-// For more languages, this can be expanded or replaced with a proper parser.
 var (
-	singleLineComment = regexp.MustCompile(`(?m)^\s*//.*$|^\s*#.*$`)
+	singleLineComment = regexp.MustCompile(`(?m)^\s*(//|#).*?$`)
+	inlineComment     = regexp.MustCompile(`(?m)([^:"'])\s+(//|#).*?$`)
 	multiLineComment  = regexp.MustCompile(`(?s)/\*.*?\*/`)
 )
 
-// ChunkFile splits a file content into chunks of maxChunkSize lines,
-// optionally stripping comments.
 func ChunkFile(filePath string, content []byte, maxChunkSize int, stripComments bool) ([]Chunk, error) {
 	if stripComments {
 		content = stripCommentsFromContent(content)
@@ -46,9 +42,15 @@ func ChunkFile(filePath string, content []byte, maxChunkSize int, stripComments 
 	return chunks, nil
 }
 
-// stripCommentsFromContent removes single-line and multi-line comments from content.
 func stripCommentsFromContent(content []byte) []byte {
-	noMulti := multiLineComment.ReplaceAll(content, []byte(""))
-	noSingle := singleLineComment.ReplaceAll(noMulti, []byte(""))
-	return noSingle
+	// 🩸 Remove multiline /* ... */
+	content = multiLineComment.ReplaceAll(content, []byte(""))
+
+	// 🌫 Remove single-line // and #
+	content = singleLineComment.ReplaceAll(content, []byte(""))
+
+	// 🌒 Remove inline comments (but keep code before them)
+	content = inlineComment.ReplaceAll(content, []byte("$1"))
+
+	return content
 }
